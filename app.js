@@ -19,7 +19,7 @@ const client = new smartcar.AuthClient({
   testMode: true,
 });
 
-app.get("/api/exchange", function (req, res) {
+app.get("/exchange", function (req, res) {
   const code = req.query.code;
   res.header("Access-Control-Allow-Origin", "*");
   // TODO: Request Step 1: Obtain an access token
@@ -31,7 +31,7 @@ app.get("/api/exchange", function (req, res) {
   });
 });
 
-app.get("/api/vehicle", function (req, res) {
+app.get("/vehicle", function (req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   return smartcar
     .getVehicleIds(access.accessToken)
