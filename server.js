@@ -4,6 +4,7 @@ require("dotenv").config();
 const express = require('express');
 const exphbs = require('express-handlebars');
 const smartcar = require('smartcar');
+const axios = require('axios');
 
 const app = express();
 app.engine(
@@ -20,7 +21,7 @@ const client = new smartcar.AuthClient({
   clientId: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
   redirectUri: process.env.REDIRECT_URI,
-  scope: ['required:read_vehicle_info'],
+  scope: ['required:read_vehicle_info', "read_odometer", "read_tires"],
   testMode: true,
 });
 
@@ -67,6 +68,18 @@ app.get('/vehicle', function(req, res) {
     .then(function(info) {
         res.json(info);
     });
+});
+
+app.get('/odometer', function(req, res) {
+  const id = req.query.vehicleId;
+  const url = `https://api.smartcar.com/v1.0/vehicles/${id}/odometer`;
+
+  return axios({
+    method: "GET",
+    url,
+    headers: { 'Authorization': `Bearer ${access.accessToken}` }
+  })
+    .then(info => res.json(info.data));
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
