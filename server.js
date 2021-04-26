@@ -15,7 +15,7 @@ app.engine(
   }),
 );
 app.set('view engine', '.hbs');
-const port = 80;
+const port = 8000;
 
 const client = new smartcar.AuthClient({
   clientId: process.env.CLIENT_ID,
